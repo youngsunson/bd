@@ -1,14 +1,15 @@
 <!DOCTYPE html>
-<html>
+<html lang="bn">
 <head>
   <meta charset="UTF-8" />
-  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>ভাষা মিত্র</title>
-  <script type="text/javascript" src="https://appsforoffice.microsoft.com/lib/1.1/hosted/office.js"></script>
+  <!-- Office.js must be loaded before your app -->
+  <script src="https://appsforoffice.microsoft.com/lib/1.1/hosted/office.js"></script>
 </head>
 <body>
-  <div id="app">
-    <!-- Your UI here -->
-  </div>
+  <div id="root"></div>
+  <!-- Vite will inject the correct script during build -->
+  <script type="module" src="/src/index.tsx"></script>
 </body>
 </html>
