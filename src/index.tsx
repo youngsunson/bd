@@ -1,4 +1,6 @@
-import React, { useState, useEffect } from 'react';
+// src/index.tsx
+// import React, { useState, useEffect } from 'react'; // React ইম্পোর্ট করা হয়েছিল, কিন্তু ব্যবহার করছেন না
+import { useState, useEffect } from 'react'; // এখন React ইম্পোর্ট করা হয়নি
 import ReactDOM from 'react-dom/client';
 import './index.css';
 
@@ -146,7 +148,8 @@ function App() {
   const clearHighlights = async () => {
     await Word.run(async (context) => {
       const body = context.document.body;
-      body.font.highlightColor = null;
+      // body.font.highlightColor = null; // এটি সমস্যার কারণ
+      body.font.highlightColor = "transparent"; // এটি সঠিক কোড
       await context.sync();
     }).catch((error) => {
       console.error('Error clearing highlights:', error);
@@ -171,7 +174,7 @@ function App() {
 
     try {
       const response = await fetch(
-        `https://generativelanguage.googleapis.com/v1beta/models/  ${selectedModel}:generateContent?key=${apiKey}`,
+        `https://generativelanguage.googleapis.com/v1beta/models/${selectedModel}:generateContent?key=${apiKey}`,
         {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
@@ -263,7 +266,7 @@ Response format (শুধুমাত্র valid JSON object return করু�
         const analysisData = JSON.parse(jsonMatch[0]);
         
         const spellingErrors = analysisData.spellingErrors || [];
-        spellingErrors.forEach((error: SpellingError, index: number) => {
+        spellingErrors.forEach((error: SpellingError) => { // 'index' প্যারামিটার সরানো হয়েছে
           if (error.position === undefined) {
             error.position = text.indexOf(error.wrong);
           }
@@ -312,7 +315,7 @@ Response format (শুধুমাত্র valid JSON object return করু�
   const analyzeContent = async (text: string) => {
     try {
       const response = await fetch(
-        `https://generativelanguage.googleapis.com/v1beta/models/  ${selectedModel}:generateContent?key=${apiKey}`,
+        `https://generativelanguage.googleapis.com/v1beta/models/${selectedModel}:generateContent?key=${apiKey}`,
         {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
@@ -392,7 +395,7 @@ Response format (শুধুমাত্র valid JSON object return করু�
   return (
     <div style={{ fontFamily: "'Noto Sans Bengali', sans-serif", background: 'linear-gradient(to bottom right, #eff6ff, #e0e7ff)', minHeight: '100vh', display: 'flex', flexDirection: 'column' }}>
       <style>{`
-        @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+Bengali  :wght@400;500;600;700&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+Bengali:wght@400;500;600;700&display=swap');
         
         * { box-sizing: border-box; margin: 0; padding: 0; }
         
