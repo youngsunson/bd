@@ -1,6 +1,5 @@
-// src/index.tsx
-// import React, { useState, useEffect } from 'react'; // React ইম্পোর্ট করা হয়েছিল, কিন্তু ব্যবহার করছেন না
-import { useState, useEffect } from 'react'; // এখন React ইম্পোর্ট করা হয়নি
+
+import React, { useState, useEffect } from 'react';
 import ReactDOM from 'react-dom/client';
 import './index.css';
 
@@ -148,8 +147,7 @@ function App() {
   const clearHighlights = async () => {
     await Word.run(async (context) => {
       const body = context.document.body;
-      // body.font.highlightColor = null; // এটি সমস্যার কারণ
-      body.font.highlightColor = "transparent"; // এটি সঠিক কোড
+      body.font.highlightColor = null;
       await context.sync();
     }).catch((error) => {
       console.error('Error clearing highlights:', error);
@@ -174,7 +172,7 @@ function App() {
 
     try {
       const response = await fetch(
-        `https://generativelanguage.googleapis.com/v1beta/models/${selectedModel}:generateContent?key=${apiKey}`,
+        `https://generativelanguage.googleapis.com/v1beta/models/  ${selectedModel}:generateContent?key=${apiKey}`,
         {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
@@ -266,7 +264,7 @@ Response format (শুধুমাত্র valid JSON object return করু�
         const analysisData = JSON.parse(jsonMatch[0]);
         
         const spellingErrors = analysisData.spellingErrors || [];
-        spellingErrors.forEach((error: SpellingError) => { // 'index' প্যারামিটার সরানো হয়েছে
+        spellingErrors.forEach((error: SpellingError, index: number) => {
           if (error.position === undefined) {
             error.position = text.indexOf(error.wrong);
           }
@@ -315,7 +313,7 @@ Response format (শুধুমাত্র valid JSON object return করু�
   const analyzeContent = async (text: string) => {
     try {
       const response = await fetch(
-        `https://generativelanguage.googleapis.com/v1beta/models/${selectedModel}:generateContent?key=${apiKey}`,
+        `https://generativelanguage.googleapis.com/v1beta/models/  ${selectedModel}:generateContent?key=${apiKey}`,
         {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
@@ -395,7 +393,7 @@ Response format (শুধুমাত্র valid JSON object return করু�
   return (
     <div style={{ fontFamily: "'Noto Sans Bengali', sans-serif", background: 'linear-gradient(to bottom right, #eff6ff, #e0e7ff)', minHeight: '100vh', display: 'flex', flexDirection: 'column' }}>
       <style>{`
-        @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+Bengali:wght@400;500;600;700&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+Bengali  :wght@400;500;600;700&display=swap');
         
         * { box-sizing: border-box; margin: 0; padding: 0; }
         
@@ -797,19 +795,32 @@ Response format (শুধুমাত্র valid JSON object return করু�
           </div>
         </div>
       </div>
-      {/* Footer - Developer Info */}
-      <div style={{ background: 'linear-gradient(to right, #f3f4f6, #e5e7eb)', padding: '16px', textAlign: 'center', borderTop: '2px solid #d1d5db' }}>
-        <p style={{ fontSize: '12px', color: '#6b7280', marginBottom: '4px' }}>
-          <strong>Developed by:</strong> হিমাদ্রি বিশ্বাস
-        </p>
-        <p style={{ fontSize: '11px', color: '#9ca3af' }}>
-          📞 +880 9696 196566
-        </p>
-      </div>
+    {/* Footer - Developer Info */}
+    <div style={{
+      background: 'linear-gradient(to right, #f3f4f6, #e5e7eb)',
+      padding: '16px',
+      textAlign: 'center',
+      borderTop: '2px solid #d1d5db',
+      marginTop: 'auto' // ফুটার সবসময় নিচে রাখবে
+    }}>
+      <p style={{
+        fontSize: '12px',
+        color: '#6b7280',
+        marginBottom: '4px',
+        fontWeight: '500'
+      }}>
+        <strong>Developed by:</strong> হিমাদ্রি বিশ্বাস
+      </p>
+      <p style={{
+        fontSize: '11px',
+        color: '#9ca3af',
+        margin: 0
+      }}>
+        📞 +880 9696 196566
+      </p>
     </div>
-  );
-}
-
+  </div>
+);
 // Initialize Office and React
 Office.onReady(() => {
   const root = ReactDOM.createRoot(document.getElementById('root')!);
